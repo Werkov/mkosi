@@ -50,6 +50,8 @@ from typing import (
     cast,
 )
 
+import time
+
 __version__ = '5'
 
 if sys.version_info < (3, 6):
@@ -681,6 +683,8 @@ def attach_image_loopback(args: CommandLineArguments, raw: Optional[BinaryIO]) -
                 stdout=PIPE, check=True)
         loopdev = c.stdout.decode("utf-8").strip()
         output.append(loopdev)
+        time.sleep(1)
+        run(["partx", "-u", loopdev], check=True)
 
     try:
         yield loopdev
